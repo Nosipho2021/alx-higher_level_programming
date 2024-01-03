@@ -1,4 +1,8 @@
 #!/usr/bin/python3
-for i in range(122, 96, -1):
-    print(chr(i - 32) + chr(i), end="")
+i = 0
+for c in range(ord('z'), ord('a') - 1, -1):
+    print("{}".format(chr(c - i)), end="")
+    i = 32 if i == 0 else 0
+
+
 
