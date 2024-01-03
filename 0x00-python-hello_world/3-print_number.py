@@ -1,4 +1,7 @@
 #!/usr/bin/python3
 number = 98
-print(f"{number:d} Battery street")
+street = "Battery street"
+print(f"{number}, followed by {street},")
+
+
 
