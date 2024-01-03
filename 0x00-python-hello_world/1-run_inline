@@ -1,3 +1,2 @@
 #!/bin/bash
-echo "$PYCODE" > temp.py
-python temp.py
+python3 < < < $PYCODE
