@@ -14,13 +14,21 @@ def main(argv):
     """
     user = argv[1]
     password = argv[2]
-    response = requests.get('https://api.github.com/user',
-                            auth=HTTPBasicAuth(user, password))
     try:
+        response = requests.get('https://api.github.com/user',
+                                auth=HTTPBasicAuth(user, password))
+        response.raise_for_status()  # Raise an exception for HTTP errors
         profile_info = response.json()
         print(profile_info['id'])
-    except:
-        print('None')
+    except requests.exceptions.HTTPError as err:
+        print(f"HTTP error occurred: {err}")
+    except requests.exceptions.RequestException as err:
+        print(f"Request error occurred: {err}")
+    except KeyError:
+        print('Unable to retrieve user ID.')
+    except Exception as err:
+        print(f"An unexpected error occurred: {err}")
+
 
 if __name__ == "__main__":
     main(argv)
