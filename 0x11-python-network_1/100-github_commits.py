@@ -15,8 +15,7 @@ def list_commits(repository, owner):
 
     url = f"https://api.github.com/repos/{owner}/{repository}/commits"
     params = {'per_page': 10}
-    headers = {'Authorization': '
-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'}
+    headers = {'Authorization': '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'}
     response = requests.get(url, params=params, headers=headers)
     if response.status_code == 200:
         commits = response.json()
@@ -29,6 +28,4 @@ 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'}
 
 
 if __name__ == "__main__":
-    repository = sys.argv[1]
-    owner = sys.argv[2]
-    list_commits(repository, owner)
+    list_commits(sys.argv[1], sys.argv[2])
