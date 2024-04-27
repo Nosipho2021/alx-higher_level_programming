@@ -3,29 +3,41 @@
 Module to access to the GitHub API and uses the information
 """
 import requests
-import sys
+from requests.auth import HTTPBasicAuth
+from sys import argv
 
 
-def list_commits(repository, owner):
+def main(argv):
     """
     Function that list 10 commits (from the most recent to oldest)
     of the repository.The first argument will be the repository name
     and the second argument will be the owner name
     """
 
-    url = f"https://api.github.com/repos/{owner}/{repository}/commits"
-    params = {'per_page': 10}
-    headers = {'Authorization': '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'}
-    response = requests.get(url, params=params, headers=headers)
-    if response.status_code == 200:
-        commits = response.json()
-        for commit in commits:
-            sha = commit['sha']
-            author_name = commit['commit']['author']['name']
-            print(f"{sha}: {author_name}")
+    def print_commits(i, commit_list):
+        """
+        List the commits, less than 10 commits
+        """
+        sha = commit_list[i].get('sha')
+        commit = commit_list[i].get('commit')
+        author = commit.get('author')
+        name = author.get('name')
+        print('{}: {}'.format(sha, name))
+
+    repo = argv[1]
+    owner = argv[2]
+    headers = {"Accept": "application/vnd.github.v3+json"}
+    response = requests.get('https://api.github.com/repos/' + owner +
+                            '/' + repo + '/commits', headers=headers)
+    commit_list = response.json()
+    size = len(commit_list)
+    if size < 10:
+        for i in range(0, size):
+            print_commits(i, commit_list)
     else:
-        print(f"Error: Unable to fetch commit.")
+        for i in range(0, 10):
+            print_commits(i, commit_list)
 
 
 if __name__ == "__main__":
-    list_commits(sys.argv[1], sys.argv[2])
+    main(argv)
