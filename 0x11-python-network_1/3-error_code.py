@@ -1,21 +1,16 @@
 #!/usr/bin/python3
 """
-Script that takes in a URL, sends a request, and displays the body of the response.
+Takes in a URL, sends request and displays the body of the response.
 """
 
 import urllib.request
 import urllib.error
 import sys
 
+
 def fetch_url_body(url):
     """
     Fetches the body of the response from the given URL.
-
-    Args:
-        url (str): The URL to send the request to.
-
-    Returns:
-        str: The decoded body of the response.
     """
     try:
         with urllib.request.urlopen(url) as response:
@@ -24,9 +19,9 @@ def fetch_url_body(url):
     except urllib.error.HTTPError as e:
         print(f"Error code: {e.code}")
 
+
 if __name__ == "__main__":
     url = sys.argv[1]
     response_body = fetch_url_body(url)
     if response_body:
         print(response_body)
-
